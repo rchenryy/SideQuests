@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ user.name }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<style>
+  .profile { width: 100%; max-width: 26rem; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 10px; padding: 1.75rem; }
+  .profile h1 { margin: 0; font-size: 1.4rem; }
+  .profile .email { margin: 0 0 1.25rem; color: var(--muted); }
+  dl { margin: 0 0 1.25rem; display: grid; grid-template-columns: auto 1fr; gap: .4rem 1rem; }
+  dt { color: var(--muted); }
+  dd { margin: 0; }
+  .bio { margin: 0 0 1.5rem; white-space: pre-wrap; }
+  .edit { display: block; text-align: center; padding: .7rem; font-weight: 600; text-decoration: none;
+    color: var(--accent-text); background: var(--accent); border-radius: 6px; }
+</style>
+</head>
+<body>
+    <h1>you are in the user page !</h1>
+    <a href="{{url_for('main')}}">main page</a>
+    <body>
+<main class="profile">
+  <h1>{{ user.name }}</h1>
+  <p class="email">{{ user.email }}</p>
+ 
+  <dl>
+    <dt>Class year</dt><dd>{{ user.class_year }}</dd>
+    <dt>Date of birth</dt><dd>{{ user.dob }}</dd>
+  </dl>
+ 
+  <p class="bio">{{ user.bio or "No bio yet." }}</p>
+
+  <a class="edit" href="">Edit profile</a> 
+</main>
+</body>
+</body>
