@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Create New Event</title>
+</head>
+
+<body>
+    <a href="{{url_for('main')}}">back to main page</a>
+    <h1>Create a new event</h1>
+    <p>To create a new event, please fill out the form below:</p>
+
+    <h2>New Event</h2>
+    
+    <form method ="POST" action="/upload-endpoint" enctype="multipart/form-data">
+
+        <p>Name</p>
+        <p>Email</p>
+        
+        <label for = "event_name">Event Title:</label>
+        <input type = "text" maxlength= "30" id = "event_name" name = "event_name" required>
+        <br>
+        <br>
+
+        <label for = "city">(Optional): Event Location (City):</label>
+        <input type = text" maxlength= "30" id = "city" name = "city">
+        <br>
+        <br>
+
+        <label for = "date">Event Date and Time:</label>
+        <input type = "datetime-local" id = "date" name = "date" required>
+        <br>
+        <br>
+
+        <label for = "meeting_point">Meeting Point:</label>
+        <input type = "text" maxlength= "100" id = "meeting_point" name = "meeting_point">
+        <br>
+        <br>
+
+        <label for = "price">(Optional): Event Price:</label>
+        <input type = "number" step= "any" id = "price" name = "price">
+        <br>
+        <br>
+
+        <label for = "description">Event Description:</label>
+        <br>
+        <br>
+        <textarea id="description" name="description" rows="description" cols="description" maxlength="500" placeholder="Type event description here..." required></textarea>
+        <br>
+        <br>
+
+        <p>Select event type:</p>
+        <input type = "checkbox" " id = "option1" name = "option1" value= "Food" >
+        <label for = "option1">Food</label> 
+        <br>
+
+        <input type = "checkbox" " id = "option2" name = "option2" value= "Academic" >
+        <label for = "option2">Academic</label> 
+        <br>
+
+        <input type = "checkbox" " id = "option3" name = "option3" value= "Nightlife" >
+        <label for = "option3">Nightlife</label> 
+        <br>
+
+        <input type = "checkbox" " id = "option4" name = "option4" value= "Music" >
+        <label for = "option4">Music</label>
+        <br>
+
+        <input type = "checkbox" " id = "option5" name = "option5" value= "Cultural" >
+        <label for = "option5">Cultural</label>
+        <br>
+
+        <input type = "checkbox" " id = "option6" name = "option6" value= "Sport" >
+        <label for = "option6">Sport</label>
+        <br>
+
+        <input type = "checkbox" " id = "option7" name = "option7" value= "Nature" >
+        <label for = "option7">Nature</label>
+        <br>
+
+        <input type = "checkbox" " id = "option8" name = "option8" value= "Other" >
+        <label for = "option8">Other</label>
+        <br>
+        <br>
+
+        <label for="attachment">(Optional) Chooses a file to attach:</label>
+        <input type="file" id="attachment" name="attachment">
+        
+        <br>
+        <br>
+        <input type = "submit" value = "Create new event!">
+    </form>
+</body>
+
+~/cs304/SideQuests/draft/templates/
