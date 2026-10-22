@@ -11,13 +11,11 @@ def login():
 @app.route("/main")
 def main():
     return render_template("main.html", users=users)
-
-@app.route("/new-user")
-def new_user():
-    return render_template("new_user.html")
             
-@app.route("/add-user", methods=['POST', 'GET'])
-def add_user():
+@app.route("/new-user", methods=['POST', 'GET'])
+def new_user():
+    if request.method == 'GET':
+        return render_template("new_user.html")
     name = request.form['name']
     email = request.form['email']
     class_year = request.form["classYear"]
@@ -26,7 +24,7 @@ def add_user():
     user = {"name":name, "email":email, "class_year":class_year, "dob":dob, "bio":bio}
     users.append(user)
     # TODO:save to your database here
-    return render_template("user.html", user=user)
+    return redirect(url_for("user"))
     # return redirect(url_for("user.html", user=user))
 
 @app.route("/new-event")
@@ -37,9 +35,9 @@ def new_event():
 def event():
     return render_template("event.html")
 
-@app.route("/user")
+@app.route("/user/")
 def user():
-    return render_template("user.html", user=users[0])
+    return render_template("user.html", user=user)
 
 # @app.route("/user", methods=["POST"])
 # def user():

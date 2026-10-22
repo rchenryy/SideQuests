@@ -6,47 +6,10 @@
 <title>New user</title>
 <!-- <link rel="stylesheet" href="style.css"> -->
 <style>
-  :root {
-    --bg: #f6f7f9; --surface: #fff; --text: #1d2330; --muted: #5d6676;
-    --border: #cfd5df; --accent: #2c5fd6; --accent-text: #fff;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #14171d; --surface: #1d222b; --text: #e8ebf0; --muted: #9aa3b2;
-      --border: #3a4252; --accent: #6b95f2; --accent-text: #10141b;
-    }
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 1.5rem;
-    background: var(--bg); color: var(--text);
-    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
-  }
-  form {
-    width: 100%; max-width: 26rem; background: var(--surface);
-    border: 1px solid var(--border); border-radius: 10px; padding: 1.75rem;
-  }
-  h1 { margin: 0 0 1.25rem; font-size: 1.4rem; }
-  label { display: block; margin-bottom: 1rem; font-weight: 600; font-size: .9rem; }
-  input, select, textarea {
-    display: block; width: 100%; margin-top: .3rem; padding: .55rem .65rem;
-    font: inherit; font-weight: 400; color: var(--text); background: var(--bg);
-    border: 1px solid var(--border); border-radius: 6px;
-  }
-  textarea { min-height: 6rem; resize: vertical; }
-  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible {
-    outline: 2px solid var(--accent); outline-offset: 1px;
-  }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
-  button {
-    width: 100%; padding: .7rem; font: inherit; font-weight: 600; cursor: pointer;
-    color: var(--accent-text); background: var(--accent); border: 0; border-radius: 6px;
-  }
-  #msg { margin: 1rem 0 0; color: var(--muted); font-size: .9rem; min-height: 1.4em; }
 </style>
 </head>
 <body>
-<form action="{{url_for('add_user')}}" method="post">
+<form action="{{url_for('new_user')}}" method="post">
   <h1>Create your account</h1>
 
   <label>Name
