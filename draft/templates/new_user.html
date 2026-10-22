@@ -1,48 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>New user</title>
-<!-- <link rel="stylesheet" href="style.css"> -->
-<style>
-</style>
-</head>
-<body>
-<form action="{{url_for('new_user')}}" method="post">
-  <h1>Create your account</h1>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>New user</title>
+        <!-- <link rel="stylesheet" href="style.css"> -->
+        <style>
+        </style>
+    </head>
 
-  <label>Name
-    <input name="name" type="text" autocomplete="name" required>
-  </label>
+    <body>
+        <a href="/">Back to login page</a>
+        <form action="{{url_for('new_user')}}" method="post">
+            <h1>Create your account</h1>
+            <br>
+            <br>
 
-  <label>Email
-    <input name="email" type="email" autocomplete="email" required>
-  </label>
+            <label>Name <input name="name" type="text" maxlength="30" autocomplete="name" required> </label>
+            <br>
+            <br>
 
-  <div class="row">
-    <label>Class year
-      <select name="classYear" required>
-        <option value="" disabled selected>Select</option>
-      </select>
-    </label>
-    <label>Date of birth
-      <input name="dob" type="date" autocomplete="bday" required>
-    </label>
-  </div>
+            <label>Email <input name="email" type="email" maxlength="19" autocomplete="email" required> </label>
+            <br>
+            <br>
 
-  <label>Bio
-    <textarea name="bio" maxlength="250"></textarea>
-  </label>
+            <div class="row">
+                <label>Class year 
+                  <select name="class" required><option value="" disabled selected>Select</option></select>
+                </label>
+                <label>Date of birth <input name="dob" type="date" autocomplete="bday" required> </label>
+            </div>
+            <br>
+            <br>
+            
+            <label>Bio
+            <textarea name="bio" maxlength="250"></textarea>
+            </label> 
+            <button type="submit">Create account</button>
+        </form>
 
-  <button type="submit">Create account</button>
-</form>
-
-<script>
+        <script>
   const sel = document.querySelector('[name=classYear]');
   const y = new Date().getFullYear();
   for (let i = y - 5; i <= y + 6; i++) sel.add(new Option(i, i));
   document.querySelector('[name=dob]').max = new Date().toISOString().split('T')[0];
-</script>
-</body>
+        </script>
+    </body>
 </html>
