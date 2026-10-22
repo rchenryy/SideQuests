@@ -16,22 +16,21 @@ def main():
 def new_user():
     if request.method == 'GET':
         return render_template("new_user.html")
-    name = request.form['name']
-    email = request.form['email']
-    class_year = request.form["classYear"]
-    dob = request.form["dob"]
-    bio = request.form.get("bio", "")
-    user = {"name":name, "email":email, "class_year":class_year, "dob":dob, "bio":bio}
+    user = request.form.to_dict()
     users.append(user)
     # TODO:save to your database here
     return redirect(url_for("user"))
     # return redirect(url_for("user.html", user=user))
 
-@app.route("/new-event")
+@app.route("/new-event", methods=['POST', 'GET'])
 def new_event():
-    return render_template("new_event.html")
+    if request.method == 'GET':
+        return render_template("new_event.html")
+    
+    # TODO:save to your database here
+    return redirect(url_for("event"))
 
-@app.route("/event")
+@app.route("/event/")
 def event():
     return render_template("event.html")
 
