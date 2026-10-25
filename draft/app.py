@@ -30,9 +30,42 @@ def new_event():
     # TODO:save to your database here
     return redirect(url_for("event"))
 
+#event placeholder data for html
+events = [
+    {
+        "id": 0,
+        "event_name": "Kelela Concert",
+        "city": "Boston",
+        "date": "2026-11-15T20:00",
+        "meeting_point": "Main Entrance",
+        "price": "100",
+        "description": "Hi, just found out Kelela is coming to town! I have an extra ticket for sale if anyone is interested.",
+        "comments": [
+            {
+                "username": "Mary",
+                "comment_text": "That sounds fun, I would like to go!",
+                "timestamp": "2026-10-20 14:30:00",
+                "replies": [
+                    {
+                        "username": "Alice",
+                        "comment_text": "I would love to join as well.",
+                        "timestamp": "2026-10-20 15:00:00"
+                    }
+                ]
+            },
+            {
+                "username": "Lucy",
+                "comment_text": "I'm interested, how can I get the ticket?",
+                "timestamp": "2026-10-20 16:00:00",
+                "replies": []
+            }
+        ]
+    }
+]
+
 @app.route("/event/")
 def event():
-    return render_template("event.html")
+    return render_template("event.html", event=events[0]) 
 
 @app.route("/user/")
 def user():

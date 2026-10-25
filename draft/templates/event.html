@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.event_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .card { border: 1px solid #ccc; border-radius: 8px; padding: 1.5rem; background: #fff; margin-bottom: 1rem; }
+        .comment-card { border: 1px solid #eee; border-radius: 6px; padding: 1rem; background: #f9f9f9; margin-bottom: 0.75rem; }
+        .reply-card { border-left: 3px solid #ff00e6; background: #fff; padding: 0.5rem 1rem; margin: 0.5rem 0 0.5rem 1.5rem; }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('main') }}"> back to Main Page</a>
+
+    <h1>{{ event.event_name }}</h1>
+
+    <!-- Event Details Card -->
+    <div class="card">
+        <p><strong>Location:</strong> {{ event.city }}</p>
+        <p><strong>Meeting Point:</strong> {{ event.meeting_point }}</p>
+        <p><strong>Date & Time:</strong> {{ event.date }}</p>
+        <p><strong>Price:</strong> {{ '$' ~ event.price  }}</p>
+        <p><strong>Description:</strong> {{ event.description }}</p>
+    </div>
+
+    <!-- Comments Display -->
+    <h2>Comments</h2>
+    {% for comment in event.comments %}
+        <div class="comment-card">
+            <p><strong>{{ comment.username }}</strong> <span>{{ comment.timestamp }}</span></p>
+            <p>{{ comment.comment_text }}</p>
+            {% if comment.replies %}
+                {% for reply in comment.replies %}
+                    <div class="reply-card">
+                        <p><strong>{{ reply.username }}</strong> <span>{{ reply.timestamp }}</span></p>
+                        <p>{{ reply.comment_text }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% else %}
+        <p>No comments yet. Be the first to comment!</p>
+    {% endfor %}
+
+    <!-- Comment Form -->
+    <div class="card">
+        <h3>Post a Comment</h3>
+        <form method="POST">
+            <input type="text" name="username" placeholder="Your Name" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;"><br>
+            <textarea name="comment_text" placeholder="Write your comment here..." required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;" rows="3"></textarea><br>
+            <button type="submit" style="padding: 8px 16px;">Post Comment</button>
+        </form>
+    </div> 
+</body>
+</html>
