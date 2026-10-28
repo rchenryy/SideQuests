@@ -23,6 +23,10 @@
             <label>Email <input name="email" type="email" maxlength="19" autocomplete="email" required> </label>
             <br>
             <br>
+            
+            <label>Password <input name="password" type="text" maxlength="30" required> </label>
+            <br>
+            <br>
 
             <div class="row">
                 <label>Class year 
@@ -32,7 +36,7 @@
             </div>
             <br>
             <br>
-            
+
             <label>Bio
             <textarea name="bio" maxlength="250"></textarea>
             </label> 
@@ -40,7 +44,7 @@
         </form>
 
         <script>
-  const sel = document.querySelector('[name=classYear]');
+  const sel = document.querySelector('[name=class]');
   const y = new Date().getFullYear();
   for (let i = y - 5; i <= y + 6; i++) sel.add(new Option(i, i));
   document.querySelector('[name=dob]').max = new Date().toISOString().split('T')[0];

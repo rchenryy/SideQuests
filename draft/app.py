@@ -71,13 +71,6 @@ def event():
 def user():
     return render_template("user.html", user=user)
 
-# @app.route("/user", methods=["POST"])
-# def user():
-#     return render_template("user.html",user=users[0])#dictionary using user ID
-
-
-
-
 if __name__ == '__main__':
     import os
     uid = os.getuid()
