@@ -73,6 +73,9 @@ def user():
     # look at shopping cart ex for cookie demonstration
     return render_template("user.html", user=user)
 
+# creating endpoints for new comment and new response, which will update respective data
+# bases and redirect to event.html
+
 if __name__ == '__main__':
     import os
     uid = os.getuid()
