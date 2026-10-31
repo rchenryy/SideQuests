@@ -40,18 +40,10 @@
 
 <main>
     <a href="{{url_for('event')}}">event page sample</a>
-  {% if items %}
     <div class="grid">
-      {% for item in users %}
-        <a class="card" href="">
-          <h2>{{ item.name }}</h2>
-          <p>{{ item.email }}</p>
-        </a>
-      {% endfor %}
+
     </div>
-  {% else %}
     <p class="empty">No items found.</p>
-  {% endif %}
 </main>
 </body>
 </html>

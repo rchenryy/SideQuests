@@ -10,14 +10,13 @@ def login():
 
 @app.route("/main")
 def main():
-    return render_template("main.html", users=users)
+    return render_template("main.html")
             
 @app.route("/new-user", methods=['POST', 'GET'])
 def new_user():
     if request.method == 'GET':
         return render_template("new_user.html")
     user = request.form.to_dict()
-    users.append(user)
     # TODO:save to your database here
     return redirect(url_for("user"))
     # return redirect(url_for("user.html", user=user))
@@ -69,6 +68,9 @@ def event():
 
 @app.route("/user/")
 def user():
+    # parametrize, query from user table, maybe INNER JOIN RSVP table?
+    # in main.html url_for user pass cookie UID as arg "My Profile"
+    # look at shopping cart ex for cookie demonstration
     return render_template("user.html", user=user)
 
 if __name__ == '__main__':
