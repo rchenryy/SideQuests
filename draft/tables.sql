@@ -11,10 +11,12 @@ CREATE TABLE user(
     uid int AUTO_INCREMENT PRIMARY KEY,
     name varchar(30) NOT NULL,
     class int NOT NULL,
-    dio varchar(250),
+    bio varchar(250),
     dob date NOT NULL,
     email char(5) NOT NULL,
-    password varchar(255) NOT NULL 
+    password varchar(255) NOT NULL, 
+
+    index(email)
 )
 
 CREATE TABLE event(
