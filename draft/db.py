@@ -1,3 +1,4 @@
+#
 import pymysql
 from pwd_context import hash_password
 conn = pymysql.connect(read_default_file='~/.my.cnf', database='squest_db')
