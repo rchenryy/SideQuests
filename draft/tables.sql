@@ -3,7 +3,7 @@ use squest_db;
 DROP TABLE IF EXISTS rsvp;
 DROP TABLE IF EXISTS response;
 DROP TABLE IF EXISTS comment;
-DROP TABLE IF EXISTS event;
+DROP TABLE IF EXISTS `event`;
 DROP TABLE IF EXISTS user;
 
 
@@ -16,10 +16,11 @@ CREATE TABLE user(
     email char(5) NOT NULL,
     password varchar(255) NOT NULL, 
 
+    unique(email),
     index(email)
-)
+);
 
-CREATE TABLE event(
+CREATE TABLE `event`(
     uid int,
     eid int AUTO_INCREMENT PRIMARY KEY,
     event_name varchar(30) NOT NULL,
@@ -31,14 +32,14 @@ CREATE TABLE event(
     description varchar(500) NOT NULL,
     attachment varchar(500),
     price float NOT NULL
-)
+);
 
 CREATE TABLE comment(
     uid int,
     eid int,
     cid int AUTO_INCREMENT PRIMARY KEY,
     comment varchar(250) NOT NULL
-)
+);
 
 CREATE TABLE response(
     uid int,
@@ -46,10 +47,12 @@ CREATE TABLE response(
     cid int,
     rid int AUTO_INCREMENT PRIMARY KEY,
     response varchar(250) NOT NULL
-)
+);
 
 CREATE TABLE rsvp(
-    uid int PRIMARY KEY,
-    eid int PRIMARY KEY,
-    status enum ('yes', 'no', 'maybe') NOT NULL
-)
+    uid int,
+    eid int,
+    status enum ('yes', 'no', 'maybe') NOT NULL,
+
+    PRIMARY KEY (uid, eid)
+);
