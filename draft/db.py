@@ -59,6 +59,12 @@ def insert_rsvp(rsvp):
         conn.commit()
     
 
-
+def find_user(uid):
+    with conn.cursor(pymysql.cursors.DictCursor) as curs:
+        curs.execute('''SELECT name, class, bio, dob, email
+                        FROM user
+                        WHERE uid = %s;''', [uid])
+        user = curs.fetchone()
+        return user 
 
 
