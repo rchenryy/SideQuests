@@ -68,8 +68,16 @@ def insert_rsvp(rsvp):
         curs.execute('''INSERT INTO rsvp(uid, eid, status)
             VALUES (%s, %s, %s)''', [rsvp['uid'], rsvp['eid'], rsvp['status']])
         conn.commit()
-    
 
+
+def login_user(email):
+    with conn.cursor(pymysql.cursors.DictCursor) as curs:
+        curs.execute('''SELECT uid, password
+                        FROM user
+                        WHERE email = %s;''', [email])
+        user = curs.fetchone()
+        return user 
+       
 def find_user(uid):
     with conn.cursor(pymysql.cursors.DictCursor) as curs:
         curs.execute('''SELECT name, class, bio, dob, email
@@ -77,5 +85,7 @@ def find_user(uid):
                         WHERE uid = %s;''', [uid])
         user = curs.fetchone()
         return user 
+
+    
 
 

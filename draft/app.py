@@ -1,6 +1,6 @@
 from flask import (Flask, url_for, request, render_template, redirect, session)
 import db
-
+from pwd_context import verify_password
 import sys,os,random
 
 app = Flask(__name__)
@@ -9,9 +9,27 @@ app.secret_key = ''.join([ random.choice(('ABCDEFGHIJKLMNOPQRSTUVXYZ' +
                                           'abcdefghijklmnopqrstuvxyz' +
                                           '0123456789'))
                            for i in range(20) ])
-@app.route("/")
+
+@app.route("/", methods=['POST', 'GET'])
 def login():
-    return render_template("login.html")
+    if request.method == 'GET':
+        return render_template("login.html")
+    
+    # find user, check if exists
+    login = request.form.to_dict()
+    user = db.login_user(login['email'])
+    print(type(user))
+    if user:
+        # check password
+        valid, update = verify_password(login['password'], user['password'])
+        if valid:
+            session['uid'] = user['uid']
+            return redirect(url_for("main"))
+        message = 'Incorrect login. Please try again'
+        return render_template("login.html", message = message)
+    # should message be no user found?
+    message = 'Incorrect login. Please try again'
+    return render_template("login.html", message = message)
 
 @app.route("/main")
 def main():

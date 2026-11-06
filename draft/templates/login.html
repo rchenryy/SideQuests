@@ -4,5 +4,20 @@
 </head>
 <body>
     <a href="{{url_for('main')}}">main page</a>
+    <br>
+    <br>
+    <form action="{{url_for('login')}}" method="post">
+        {% if message %}<div class="message"><p>{{message}}</p></div>{% endif %}
+        <label>Wellesley Username <input name="email" type="text" maxlength="5" required> </label>
+        <br>
+        <br>
+        
+        <label>Password <input name="password" type="text" maxlength="30" required> </label>
+        <br>
+        <br>  
+        <button type="submit">Login</button>
+    </form>
+
+
     <a href="{{url_for('new_user')}}">new user form</a>
 </body>
