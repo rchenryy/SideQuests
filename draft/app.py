@@ -23,8 +23,15 @@ def new_user():
         return render_template("new_user.html")
     user = request.form.to_dict()
     uid = db.insert_user(user)
-    session['uid'] = uid
-    return redirect(url_for("user", uid=uid))
+    
+    # check if uid is none, meaning duplicate email
+    if uid:
+        session['uid'] = uid
+        return redirect(url_for("user", uid=uid))
+    
+    # render_template with filled in values
+    # send error message about email already in db
+    return render_template("new_user.html")
 
 @app.route("/new-event", methods=['POST', 'GET'])
 def new_event():
