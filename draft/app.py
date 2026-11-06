@@ -1,9 +1,14 @@
-from flask import (Flask, url_for, request, render_template, redirect)
+from flask import (Flask, url_for, request, render_template, redirect, session)
+import db
+
+import sys,os,random
 
 app = Flask(__name__)
 
-users = [{"name": "RC", "email": "rh107", "class_year": 2027, "dob": "10/05/2004", "bio": "I like to think of myself as extremely mediocre."}]
-
+app.secret_key = ''.join([ random.choice(('ABCDEFGHIJKLMNOPQRSTUVXYZ' +
+                                          'abcdefghijklmnopqrstuvxyz' +
+                                          '0123456789'))
+                           for i in range(20) ])
 @app.route("/")
 def login():
     return render_template("login.html")
@@ -17,9 +22,9 @@ def new_user():
     if request.method == 'GET':
         return render_template("new_user.html")
     user = request.form.to_dict()
-    # TODO:save to your database here
-    return redirect(url_for("user"))
-    # return redirect(url_for("user.html", user=user))
+    uid = db.insert_user(user)
+    session['uid'] = uid
+    return redirect(url_for("user", uid=uid))
 
 @app.route("/new-event", methods=['POST', 'GET'])
 def new_event():
@@ -66,11 +71,12 @@ events = [
 def event():
     return render_template("event.html", event=events[0]) 
 
-@app.route("/user/")
-def user():
+@app.route("/user/<uid>")
+def user(uid):
     # parametrize, query from user table, maybe INNER JOIN RSVP table?
     # in main.html url_for user pass cookie UID as arg "My Profile"
     # look at shopping cart ex for cookie demonstration
+    user = db.find_user(uid)
     return render_template("user.html", user=user)
 
 # creating endpoints for new comment and new response, which will update respective data

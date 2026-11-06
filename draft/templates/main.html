@@ -35,7 +35,7 @@
     <button class="btn" type="submit">Search</button>
   </form>
 
-  <a class="btn" href="{{url_for('user')}}">My profile</a>
+  <a class="btn" href="{{url_for('user', uid=session['uid'])}}">My profile</a>
 </header>
 
 <main>
