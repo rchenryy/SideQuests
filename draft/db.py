@@ -25,8 +25,19 @@ def insert_user(user):
 
 def insert_event(event):
     '''Use event dict to insert into event table, return eid and redirect to event.html'''
-    return
+    with conn.cursor(pymysql.cursor.DictCursor) as curs:
+        try:
+            curse.execute(
+                '''INSERT INTO (event_name, event_type, city, date, meeting_point, description, attachment, price)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)''', [event['name'], ])
+            conn.commit()
+            eid = curs.lastrowid
+            return eid
+        except pymysql.err.IntegrityError as err:
+            details = err.args
+            print('error',details)
 
+    
 def insert_comment():
     return
 
