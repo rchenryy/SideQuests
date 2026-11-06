@@ -32,7 +32,7 @@ def insert_event(event):
     '''Use event dict to insert into event table, return eid and redirect to event.html'''
     with conn.cursor(pymysql.cursor.DictCursor) as curs:
         try:
-            curse.execute(
+            curs.execute(
                 '''INSERT INTO (event_name, event_type, city, date, meeting_point, description, attachment, price)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)''', [event['name'], ])
             conn.commit()

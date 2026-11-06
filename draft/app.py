@@ -20,7 +20,7 @@ def main():
 @app.route("/new-user", methods=['POST', 'GET'])
 def new_user():
     if request.method == 'GET':
-        return render_template("new_user.html")
+        return render_template("new_user.html", user={'name':'','email':'','class':'','dob':'','bio':''})
     user = request.form.to_dict()
     uid = db.insert_user(user)
     
@@ -28,18 +28,18 @@ def new_user():
     if uid:
         session['uid'] = uid
         return redirect(url_for("user", uid=uid))
-    
-    # render_template with filled in values
-    # send error message about email already in db
-    return render_template("new_user.html")
+
+    message = 'Username already taken, please change'
+    return render_template("new_user.html", user=user, message=message)
 
 @app.route("/new-event", methods=['POST', 'GET'])
 def new_event():
     if request.method == 'GET':
         return render_template("new_event.html")
-    
-    # TODO:save to your database here
-    return redirect(url_for("event"))
+
+    event = request.form.to_dict()
+    db.insert_event(event, session['uid'])
+    return redirect(url_for("event", event=event))
 
 #event placeholder data for html
 events = [
