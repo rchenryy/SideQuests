@@ -16,29 +16,35 @@
             <br>
             <br>
 
-            <label>Name <input name="name" type="text" maxlength="30" autocomplete="name" required> </label>
-            <br>
-            <br>
-
-            <label>Wellesley Username <input name="email" type="text" maxlength="5" required> </label>
+            <label>Name <input name="name" type="text" maxlength="30" autocomplete="name" value="{{user.name}}" required> </label>
             <br>
             <br>
             
-            <label>Password <input name="password" type="text" maxlength="30" required> </label>
+            {% if message %}<div class="message"><p>{{message}}</p></div>{% endif %}
+            <label>Wellesley Username <input name="email" type="text" maxlength="5" value="{{user.email}}" required> </label>
+            <br>
+            <br>
+            
+            <label>Password <input name="password" type="text" maxlength="30" value="{{user.password}}" required> </label>
             <br>
             <br>
 
             <div class="row">
                 <label>Class year 
-                  <select name="class" required><option value="" disabled selected>Select</option></select>
-                </label>
-                <label>Date of birth <input name="dob" type="date" autocomplete="bday" required> </label>
+                    <select name="class" required>
+                        {% if user['class'] == '' %}
+                            <option value="" disabled selected>Select</option>
+                        {% else %}
+                            <option value="{{ user['class'] }}" selected>{{ user['class'] }}</option>
+                        {% endif %}
+                    </select>                </label>
+                <label>Date of birth <input name="dob" type="date" autocomplete="bday" value="{{user.dob}}" required> </label>
             </div>
             <br>
             <br>
 
             <label>Bio
-            <textarea name="bio" maxlength="250"></textarea>
+            <textarea name="bio" maxlength="250">{{user.bio}}</textarea>
             </label> 
             <button type="submit">Create account</button>
         </form>
