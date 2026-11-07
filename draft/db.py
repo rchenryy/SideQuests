@@ -28,13 +28,14 @@ def insert_user(user):
             # return None on any error
             return None
 
-def insert_event(event):
+def insert_event(event, uid):
     '''Use event dict to insert into event table, return eid and redirect to event.html'''
     with conn.cursor(pymysql.cursor.DictCursor) as curs:
         try:
             curse.execute(
-                '''INSERT INTO (event_name, event_type, city, date, meeting_point, description, attachment, price)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)''', [event['name'], ])
+                '''INSERT INTO (uid, event_name, event_type, city, date, meeting_point, description, attachment, price)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)''', [ uid, event['event_name'],event['event_type'], event['city'],
+                event['date'], event['meeting_point'], event['description'], event['attachment'], event['price']])
             conn.commit()
             eid = curs.lastrowid
             return eid
