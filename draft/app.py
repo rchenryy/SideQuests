@@ -102,7 +102,9 @@ def user(uid):
     # in main.html url_for user pass cookie UID as arg "My Profile"
     # look at shopping cart ex for cookie demonstration
     user = db.find_user(uid)
-    return render_template("user.html", user=user)
+    if user:
+        return render_template("user.html", user=user)
+    return redirect(url_for("main"))
 
 # creating endpoints for new comment and new response, which will update respective data
 # bases and redirect to event.html

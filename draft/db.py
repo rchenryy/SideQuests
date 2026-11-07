@@ -10,6 +10,8 @@ def insert_user(user):
     hashed = hash_password(user['password'])
 
     with conn.cursor(pymysql.cursors.DictCursor) as curs:
+        # is there another way to check if a username already exists to not cause the auto
+        # incrementer to trigger?
         try:
             curs.execute('''INSERT INTO user(name, class, bio, dob, email, password)
                         VALUES (%s, %s, %s, %s, %s, %s)''', 
