@@ -31,7 +31,7 @@ def insert_user(user, conn):
 def insert_event(event, uid, conn):
     '''Use event dict to insert into event table, return eid and redirect to event.html'''
     with conn.cursor(pymysql.cursors.DictCursor) as curs:
-        price = event.get('price', 0)  
+        price = event.get('price', 0) or 0
         attachment = event.get('attachment', None)            
         curs.execute('''INSERT INTO event(uid, event_name, event_type, city, date, meeting_point, description, attachment, price)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)''', [uid, event['event_name'],event['event_type'], event['city'],

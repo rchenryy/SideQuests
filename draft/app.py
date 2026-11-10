@@ -62,7 +62,7 @@ def new_event():
             return render_template("new_event.html")
 
         event = request.form.to_dict()
-        eid = db.insert_event(event, session['uid'], conn)
+        eid = db.insert_event(event, session['user']['uid'], conn)
         return redirect(url_for("event", eid=eid))
 
 #event placeholder data for html
