@@ -35,11 +35,11 @@
     <button class="btn" type="submit">Search</button>
   </form>
 
-  <a class="btn" href="{{url_for('user', uid=session['uid'])}}">My profile</a>
+  <a class="btn" href="{{url_for('user', uid=session['user']['uid'])}}">My profile</a>
 </header>
 
 <main>
-    <a href="{{url_for('event')}}">event page sample</a>
+    <a href="{{url_for('event', eid=6)}}">event page sample</a>
     <div class="grid">
 
     </div>

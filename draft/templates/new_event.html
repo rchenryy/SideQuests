@@ -15,7 +15,10 @@
     <form method ="POST" action="{{url_for('new_event')}}" enctype="multipart/form-data">
 
         <p>Name</p>
+        <p>{{session['user']['name']}}</p>
         <p>Email</p>
+        <p>{{session['user']['email']}}</p>
+
         
         <label for = "event_name">Event Title:</label>
         <input type = "text" maxlength= "30" id = "event_name" name = "event_name" required>
@@ -50,41 +53,41 @@
         <br>
 
         <p>Select event type:</p>
-        <input type = "checkbox" " id = "option1" name = "option1" value= "Food" >
+        <input type = "checkbox" " id = "option1" name = "event_type" value= "Food" >
         <label for = "option1">Food</label> 
         <br>
 
-        <input type = "checkbox" " id = "option2" name = "option2" value= "Academic" >
+        <input type = "checkbox" " id = "option2" name = "event_type" value= "Academic" >
         <label for = "option2">Academic</label> 
         <br>
 
-        <input type = "checkbox" " id = "option3" name = "option3" value= "Nightlife" >
+        <input type = "checkbox" " id = "option3" name = "event_type" value= "Nightlife" >
         <label for = "option3">Nightlife</label> 
         <br>
 
-        <input type = "checkbox" " id = "option4" name = "option4" value= "Music" >
+        <input type = "checkbox" " id = "option4" name = "event_type" value= "Music" >
         <label for = "option4">Music</label>
         <br>
 
-        <input type = "checkbox" " id = "option5" name = "option5" value= "Cultural" >
+        <input type = "checkbox" " id = "option5" name = "event_type" value= "Cultural" >
         <label for = "option5">Cultural</label>
         <br>
 
-        <input type = "checkbox" " id = "option6" name = "option6" value= "Sport" >
+        <input type = "checkbox" " id = "option6" name = "event_type" value= "Sport" >
         <label for = "option6">Sport</label>
         <br>
 
-        <input type = "checkbox" " id = "option7" name = "option7" value= "Nature" >
+        <input type = "checkbox" " id = "option7" name = "event_type" value= "Nature" >
         <label for = "option7">Nature</label>
         <br>
 
-        <input type = "checkbox" " id = "option8" name = "option8" value= "Other" >
+        <input type = "checkbox" " id = "option8" name = "event_type" value= "Other" >
         <label for = "option8">Other</label>
         <br>
         <br>
 
         <label for="attachment">(Optional) Chooses a file to attach:</label>
-        <input type="file" id="attachment" name="attachment">
+        <input type="file" id="attachment" name="attachment" value="">
         
         <br>
         <br>

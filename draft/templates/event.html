@@ -27,9 +27,9 @@
 
     <!-- Comments Display -->
     <h2>Comments</h2>
-    {% for comment in event.comments %}
+    {% for comment in comments %}
         <div class="comment-card">
-            <p><strong>{{ comment.username }}</strong> <span>{{ comment.timestamp }}</span></p>
+            <p><strong>{{ comment.name }}</strong> <span>{{ comment.timestamp }}</span></p>
             <p>{{ comment.comment_text }}</p>
             {% if comment.replies %}
                 {% for reply in comment.replies %}
@@ -48,7 +48,7 @@
     <div class="card">
         <h3>Post a Comment</h3>
         <form method="POST">
-            <input type="text" name="username" placeholder="Your Name" required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;"><br>
+            <label>{{session['user']['name']}}</label>
             <textarea name="comment_text" placeholder="Write your comment here..." required style="width: 100%; padding: 8px; margin-bottom: 10px; box-sizing: border-box;" rows="3"></textarea><br>
             <button type="submit" style="padding: 8px 16px;">Post Comment</button>
         </form>
