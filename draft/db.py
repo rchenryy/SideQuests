@@ -1,10 +1,8 @@
 #
 import pymysql
 from pwd_context import hash_password
-conn = pymysql.connect(read_default_file='~/.my.cnf', database='squest_db')
 
-
-def insert_user(user):
+def insert_user(user, conn):
     '''Use user dict to insert into user table, might need separate function for deaing w passwords
     this function should return the uid to then redirect to user.html, add cookie to session'''
     hashed = hash_password(user['password'])
@@ -30,22 +28,20 @@ def insert_user(user):
             # return None on any error
             return None
 
-def insert_event(event, uid):
+def insert_event(event, uid, conn):
     '''Use event dict to insert into event table, return eid and redirect to event.html'''
-    with conn.cursor(pymysql.cursor.DictCursor) as curs:
-        try:
-            curse.execute(
-                '''INSERT INTO (uid, event_name, event_type, city, date, meeting_point, description, attachment, price)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)''', [ uid, event['event_name'],event['event_type'], event['city'],
-                event['date'], event['meeting_point'], event['description'], event['attachment'], event['price']])
-            conn.commit()
-            eid = curs.lastrowid
-            return eid
-        except pymysql.err.IntegrityError as err:
-            details = err.args
-            print('error',details)
+    with conn.cursor(pymysql.cursors.DictCursor) as curs:
+        price = event.get('price', 0)  
+        attachment = event.get('attachment', None)            
+        curs.execute('''INSERT INTO event(uid, event_name, event_type, city, date, meeting_point, description, attachment, price)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)''', [uid, event['event_name'],event['event_type'], event['city'],
+            event['date'], event['meeting_point'], event['description'], attachment, price])
+        conn.commit()
+        eid = curs.lastrowid
+        return eid
 
-def insert_comment(comment):
+
+def insert_comment(comment, conn):
     '''Use comment dict to insert a comment into the comment table, return cid and 
         redirect to event.html'''
     with conn.cursor(pymysql.cursors.DictCursor) as curs:
@@ -54,7 +50,7 @@ def insert_comment(comment):
         conn.commit()
 
 
-def insert_response(response):
+def insert_response(response, conn):
     '''Use response dict to insert a response into the response table, return rid and 
     redirect to event.html'''
     with conn.cursor(pymysql.cursors.DictCursor) as curs:
@@ -63,7 +59,7 @@ def insert_response(response):
                                           response['response']])
         conn.commit()
 
-def insert_rsvp(rsvp):
+def insert_rsvp(rsvp, conn):
     '''Use rsvp dict to insert a response into the rsvp table, return status and 
     redirect to event.html'''
     with conn.cursor(pymysql.cursors.DictCursor) as curs:
@@ -72,7 +68,7 @@ def insert_rsvp(rsvp):
         conn.commit()
 
 
-def login_user(email):
+def login_user(email, conn):
     with conn.cursor(pymysql.cursors.DictCursor) as curs:
         curs.execute('''SELECT uid, password
                         FROM user
@@ -80,14 +76,37 @@ def login_user(email):
         user = curs.fetchone()
         return user 
        
-def find_user(uid):
+def find_user(uid, conn):
     with conn.cursor(pymysql.cursors.DictCursor) as curs:
-        curs.execute('''SELECT name, class, bio, dob, email
+        curs.execute('''SELECT uid, name, class, bio, dob, email
                         FROM user
                         WHERE uid = %s;''', [uid])
         user = curs.fetchone()
         return user 
 
+def find_event(eid, conn):
+    with conn.cursor(pymysql.cursors.DictCursor) as curs:
+        curs.execute('''SELECT name, event_name, event_type, city, date, meeting_point, description, attachment, price
+                        FROM event
+                        INNER JOIN user USING (uid)
+                        WHERE eid = %s;''', [eid])
+        event = curs.fetchone()
+        return event 
+
+def find_comments(eid, conn):
+    with conn.cursor(pymysql.cursors.DictCursor) as curs:
+        curs.execute('''SELECT cid, name, comment
+                        FROM comment
+                        INNER JOIN user USING (uid)
+                        WHERE eid = %s;''', [eid])
+        comments = curs.fetchall()
+        return comments
     
-
-
+def find_responses(cid, conn):
+    with conn.cursor(pymysql.cursors.DictCursor) as curs:
+        curs.execute('''SELECT name, response
+                        FROM response
+                        INNER JOIN user USING (uid)
+                        WHERE cid = %s;''', [cid])
+        responses = curs.fetchall()
+        return responses
