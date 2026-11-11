@@ -53,39 +53,19 @@
         <br>
 
         <p>Select event type:</p>
-        <input type = "checkbox" " id = "option1" name = "event_type" value= "Food" >
-        <label for = "option1">Food</label> 
-        <br>
 
-        <input type = "checkbox" " id = "option2" name = "event_type" value= "Academic" >
-        <label for = "option2">Academic</label> 
-        <br>
-
-        <input type = "checkbox" " id = "option3" name = "event_type" value= "Nightlife" >
-        <label for = "option3">Nightlife</label> 
-        <br>
-
-        <input type = "checkbox" " id = "option4" name = "event_type" value= "Music" >
-        <label for = "option4">Music</label>
-        <br>
-
-        <input type = "checkbox" " id = "option5" name = "event_type" value= "Cultural" >
-        <label for = "option5">Cultural</label>
-        <br>
-
-        <input type = "checkbox" " id = "option6" name = "event_type" value= "Sport" >
-        <label for = "option6">Sport</label>
-        <br>
-
-        <input type = "checkbox" " id = "option7" name = "event_type" value= "Nature" >
-        <label for = "option7">Nature</label>
-        <br>
-
-        <input type = "checkbox" " id = "option8" name = "event_type" value= "Other" >
-        <label for = "option8">Other</label>
-        <br>
-        <br>
-
+        <select name = "event_type" id = "event_type">
+            <option value = "">--Please select an event type--</option>
+            <option value = "food">Food</option>
+            <option value = "academic">Academic</option>
+            <option value = "nightlife">Nightlife</option>
+            <option value = "music">Music</option>
+            <option value = "cultural">Cultural</option>
+            <option value = "sport">Sport</option>
+            <option value = "nature">Nature</option>
+            <option value = "other">Other</option>
+        </select>
+        
         <label for="attachment">(Optional) Chooses a file to attach:</label>
         <input type="file" id="attachment" name="attachment" value="">
         
