@@ -25,6 +25,12 @@
         <p><strong>Description:</strong> {{ event.description }}</p>
         <p><strong>Event Tag(s):</strong> {{event.event_type}}</p>
     </div>
+    
+    <form method="POST" action="{{ url_for('event')}}">
+    {% if event.uid == session['user']['uid'] %}
+        <button type = "submit" name="update" value="update">Update Event</button>
+    {% endif %}
+    </form>
 
     <!-- Comments Display -->
     <h2>Comments</h2>

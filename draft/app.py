@@ -110,8 +110,19 @@ events = [
     }
 ]
 
+@app.route("/update-event/<eid>", methods=['POST', 'GET'])
+def update_event():
+    with pymysql.connect(read_default_file='~/.my.cnf', database='squest_db') as conn:
+        event = db.find_event(eid, conn)
 
-@app.route("/event/<eid>")
+        if request.method == 'POST':
+        
+
+        event = request.form.to_dict()
+        eid = db.insert_event(event, session['user']['uid'], conn)
+        return redirect(url_for("event", eid=eid))
+
+@app.route("/event/<eid>", methods=['POST', 'GET'])
 def event(eid):
     with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
         event = db.find_event(eid, conn)
@@ -123,7 +134,11 @@ def event(eid):
                 # for comment in comments:
                 #     responses = db.find_responses(comment['cid'], conn)
                 #     comment['responses'] = responses
-            return render_template("event.html", event=event)
+            return render_template("event.html", event=event) 
+        if request.method == 'POST':
+            button_value = request.form.get('update')
+            if button_value == 'update':
+                return redirect(url_for('update_event', eid=eid))
         return redirect(url_for("main"))
 
 
