@@ -166,3 +166,26 @@ def find_responses(cid, conn):
         )
         responses = curs.fetchall()
         return responses
+
+def update_user(uid, user, conn):
+    with conn.cursor(pymysql.cursors.DictCursor) as curs:
+        curs.execute(
+            """UPDATE user SET name = %s,
+                        class = %s,
+                        bio = %s,
+                        dob = %s
+                        WHERE uid = %s;""",
+               [user["name"],
+                user["class"],
+                user["bio"],
+                user["dob"], 
+                uid],
+        )
+        conn.commit()
+        curs.execute(
+            """SELECT uid, name, class, bio, dob, email
+                        FROM user
+                        WHERE uid = %s;""",
+            [uid],
+        )
+    return curs.fetchone()

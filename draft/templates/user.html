@@ -12,6 +12,49 @@
 <body>
     <h1>you are in the user page !</h1>
     <a href="{{url_for('main')}}">main page</a>
+  {% if request.args.get('edit') %}
+<form method="POST">
+
+        <!-- Name -->
+        <label>Name</label>
+        <input
+            type="text"
+            name="name"
+            value="{{ user.name }}"
+            required
+        >
+
+        <!-- Date of Birth -->
+        <label>Date of Birth</label>
+        <input
+            type="date"
+            name="dob"
+            value="{{ user.dob }}"
+        >
+
+        <!-- Bio -->
+        <label>Bio</label>
+        <textarea
+            name="bio"
+            rows="4"
+        >{{ user.bio }}</textarea>
+
+        <!-- Class Year -->
+        <label>Class year 
+            <select name="class" required>
+                {% if user['class'] == '' %}
+                    <option value="" disabled selected>Select</option>
+                {% else %}
+                    <option value="{{ user['class'] }}" selected>{{ user['class'] }}</option>
+                {% endif %}
+            </select>                </label>
+
+        <button type="submit">Save Changes</button>
+
+    </form>
+    <a href="{{ url_for('user', uid=session['user']['uid']) }}">Cancel</a>
+  
+    {% else %}
   <main class="profile">
   <h1>{{ user.name }}</h1>
   <p class="email">{{ user.email }}</p>
@@ -23,6 +66,18 @@
  
   <p class="bio">{{ user.bio or "No bio yet." }}</p>
 
-  <a class="edit" href="">Edit profile</a> 
+  {% if user.uid==session['user']['uid'] %}
+    <a href="{{ url_for('user', uid=session['user']['uid'], edit='true')}}">
+      Edit Profile
+    </a>
+  {% endif %}
+  {% endif %}
 </main>
+
+<script>
+const sel = document.querySelector('[name=class]');
+const y = new Date().getFullYear();
+for (let i = y - 5; i <= y + 6; i++) sel.add(new Option(i, i));
+document.querySelector('[name=dob]').max = new Date().toISOString().split('T')[0];
+</script>
 </body>

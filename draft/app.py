@@ -76,53 +76,7 @@ def new_event():
         eid = db.insert_event(event, session["user"]["uid"], conn)
         return redirect(url_for("event", eid=eid))
 
-
-# event placeholder data for html
-events = [
-    {
-        "id": 0,
-        "event_name": "Kelela Concert",
-        "city": "Boston",
-        "date": "2026-11-15T20:00",
-        "meeting_point": "Main Entrance",
-        "price": "100",
-        "description": "Hi, just found out Kelela is coming to town! I have an extra ticket for sale if anyone is interested.",
-        "comments": [
-            {
-                "username": "Mary",
-                "comment_text": "That sounds fun, I would like to go!",
-                "timestamp": "2026-10-20 14:30:00",
-                "replies": [
-                    {
-                        "username": "Alice",
-                        "comment_text": "I would love to join as well.",
-                        "timestamp": "2026-10-20 15:00:00",
-                    }
-                ],
-            },
-            {
-                "username": "Lucy",
-                "comment_text": "I'm interested, how can I get the ticket?",
-                "timestamp": "2026-10-20 16:00:00",
-                "replies": [],
-            },
-        ],
-    }
-]
-
-@app.route("/update-event/<eid>", methods=['POST', 'GET'])
-def update_event():
-    with pymysql.connect(read_default_file='~/.my.cnf', database='squest_db') as conn:
-        event = db.find_event(eid, conn)
-
-        if request.method == 'POST':
-        
-
-        event = request.form.to_dict()
-        eid = db.insert_event(event, session['user']['uid'], conn)
-        return redirect(url_for("event", eid=eid))
-
-@app.route("/event/<eid>", methods=['POST', 'GET'])
+@app.route("/event/<eid>")
 def event(eid):
     with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
         event = db.find_event(eid, conn)
@@ -142,16 +96,21 @@ def event(eid):
         return redirect(url_for("main"))
 
 
-@app.route("/user/<uid>")
+@app.route("/user/<uid>", methods=["POST", "GET"])
 def user(uid):
     with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
         # parametrize, query from user table, maybe INNER JOIN RSVP table?
         # in main.html url_for user pass cookie UID as arg "My Profile"
         # look at shopping cart ex for cookie demonstration
-        user = db.find_user(uid, conn)
-        if user:
-            return render_template("user.html", user=user)
-        return redirect(url_for("main"))
+        if request.method == "GET":
+            user = db.find_user(uid, conn)
+            if user:
+                return render_template("user.html", user=user)
+            return redirect(url_for("main"))
+        user = request.form
+        user = db.update_user(uid, user, conn)
+        session["user"] = user
+        return redirect(url_for("user", uid=uid))
 
 
 # creating endpoints for new comment and new response, which will update respective data
