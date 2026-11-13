@@ -127,7 +127,8 @@ def find_user(uid, conn):
 
 def find_event(eid, conn):
     with conn.cursor(pymysql.cursors.DictCursor) as curs:
-        curs.execute("""SELECT uid, name, event_name, event_type, city, date, meeting_point, description, attachment, price
+        curs.execute(
+            """SELECT uid, name, event_name, event_type, city, date, meeting_point, description, attachment, price
                         FROM event
                         INNER JOIN user USING (uid)
                         WHERE eid = %s;""",

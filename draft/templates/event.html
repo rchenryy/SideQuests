@@ -26,11 +26,13 @@
         <p><strong>Event Tag(s):</strong> {{event.event_type}}</p>
     </div>
     
-    <form method="POST" action="{{ url_for('event', eid=event.eid) }}">
+    <form method="POST" action="{{ url_for('event', eid=event.eid)}}">
     {% if event.uid == session['user']['uid'] %}
         <button type = "submit" name="update" value="update">Update Event</button>
     {% endif %}
     </form>
+
+    <a href="{{ url_for('event', eid=event.eid)}}">Update Event</a>
 
     <!-- Comments Display -->
     <h2>Comments</h2>

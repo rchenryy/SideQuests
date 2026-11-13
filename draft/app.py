@@ -81,6 +81,7 @@ def event(eid):
     with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
         event = db.find_event(eid, conn)
         if event:
+            event['event_type'] = event['event_type'].split(',')
             comments = db.find_comments(eid, conn)
             if comments:
                 return render_template("event.html", event=event, comments=comments)
@@ -93,6 +94,9 @@ def event(eid):
             button_value = request.form.get('update')
             if button_value == 'update':
                 return redirect(url_for('update_event', eid=eid))
+
+            # instead of this, maybe making the "button" a
+            # link to the correct endpoint?
         return redirect(url_for("main"))
 
 
