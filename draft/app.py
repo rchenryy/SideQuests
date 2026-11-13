@@ -42,6 +42,9 @@ def login():
 
 @app.route("/main")
 def main():
+    with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
+        events = db.month_events(conn)
+        return render_template("main.html", events=events)
     return render_template("main.html")
 
 

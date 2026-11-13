@@ -198,3 +198,15 @@ def search_events(pattern, conn):
         )
         events = curs.fetchall()
         return events
+
+def month_events(conn):
+    with conn.cursor(pymysql.cursors.DictCursor) as curs:
+        curs.execute(
+            """SELECT uid, name, eid, event_name, event_type, city, date, meeting_point, description, attachment, price
+                        FROM event
+                        INNER JOIN user USING (uid)
+                        WHERE MONTH(date) = MONTH(CURDATE()) 
+                        AND YEAR(date) = YEAR(CURDATE());"""
+        )
+        events = curs.fetchall()
+        return events
