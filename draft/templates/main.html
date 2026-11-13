@@ -49,7 +49,17 @@
     <div class="grid">
 
     </div>
+    {% if events %}
+
+    {% for event in events %}
+    <li><a href="{{url_for('event', eid=event.eid)}}">{{ event.event_name }}</a></li>
+    {% endfor %}
+
+    {% else %}
     <p class="empty">No items found.</p>
+    {% endif %}
+
+
 </main>
 </body>
 </html>

@@ -133,8 +133,7 @@ def search():
 
         # If no events found, flash a message and redirect back
         if len(events) == 0:
-            flash("Sorry, no events found for this search.")
-            return redirect(url_for("main"))
+            return render_template("main.html", events=events)
 
         # Redirect to the event page if there is only one match
         if len(events) == 1:
