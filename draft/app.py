@@ -112,6 +112,33 @@ def user(uid):
         session["user"] = user
         return redirect(url_for("user", uid=uid))
 
+#search function 
+@app.route("/search")
+def search():
+    search_text = request.args.get("search", "").strip()
+    
+    # If there is no search query, redirect back to the main page
+    if not search_text:
+        return redirect(url_for("main"))
+        
+    with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
+        pattern = f"%{search_text}%"
+        events = db.search_events(pattern, conn)
+
+        print(f"Found {len(events)} events matching the search pattern '{search_text}'.")
+
+        # If no events found, flash a message and redirect back
+        if len(events) == 0:
+            flash("Sorry, no events found for this search.")
+            return redirect(url_for("main"))
+
+        # Redirect to the event page if there is only one match
+        if len(events) == 1:
+            eid = events[0]['eid']
+            return redirect(url_for("event", eid=eid))
+
+        # Multiple matches found: render the main page passing the filtered events
+        return render_template("main.html", events=events)
 
 # creating endpoints for new comment and new response, which will update respective data
 # bases and redirect to event.html

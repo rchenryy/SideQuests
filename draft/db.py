@@ -127,12 +127,7 @@ def find_user(uid, conn):
 
 def find_event(eid, conn):
     with conn.cursor(pymysql.cursors.DictCursor) as curs:
-<<<<<<< Updated upstream
-        curs.execute(
-            """SELECT name, event_name, event_type, city, date, meeting_point, description, attachment, price
-=======
-        curs.execute('''SELECT uid, name, event_name, event_type, city, date, meeting_point, description, attachment, price
->>>>>>> Stashed changes
+        curs.execute("""SELECT uid, name, event_name, event_type, city, date, meeting_point, description, attachment, price
                         FROM event
                         INNER JOIN user USING (uid)
                         WHERE eid = %s;""",
@@ -153,6 +148,7 @@ def find_comments(eid, conn):
         )
         comments = curs.fetchall()
         return comments
+
 
 
 def find_responses(cid, conn):
@@ -189,3 +185,15 @@ def update_user(uid, user, conn):
             [uid],
         )
     return curs.fetchone()
+
+def search_events(pattern, conn):
+    with conn.cursor(pymysql.cursors.DictCursor) as curs:
+        curs.execute(
+            """SELECT uid, name, eid, event_name, event_type, city, date, meeting_point, description, attachment, price
+                        FROM event
+                        INNER JOIN user USING (uid)
+                        WHERE event_name LIKE %s;""",
+            [pattern],
+        )
+        events = curs.fetchall()
+        return events

@@ -30,9 +30,15 @@
 <header>
   <a class="btn" href="{{ url_for('new_event') }}">+ Add Event</a>
 
-  <form class="search" method="get" action="{{ url_for('main') }}" role="search">
-    <input type="search" name="q" value="{{ request.args.get('q', '') }}" placeholder="Search" aria-label="Search">
-    <button class="btn" type="submit">Search</button>
+  <form class="search" method="GET" action="{{ url_for('search') }}" >
+    <p>
+      <label> 
+        <input type="text" name="search" placeholder="Please enter event name to search..." required>
+      </label>
+    </p>
+    <button class="search-button" type="submit">Search</button>
+
+
   </form>
 
   <a class="btn" href="{{url_for('user', uid=session['user']['uid'])}}">My profile</a>
