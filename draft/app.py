@@ -73,36 +73,42 @@ def new_user():
 def new_event():
     with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
         if request.method == "GET":
-            return render_template("new_event.html")
+
+            if eid:
+                event = db.find_event(eid, conn)
+                event['event_type'] = event['event_type'].split('.')
+                return render_template("new_event.html", event=event)
+            
+            return render_template("new_event.html", event=None)
 
         event = request.form
-        eid = db.insert_event(event, session["user"]["uid"], conn)
-        return redirect(url_for("event", eid=eid))
+        eid = db.insert_event(event, conn)
+        return redirect(url_for('event', eid=eid))
 
-@app.route("/event/<eid>")
+@app.route("/event/<eid>",  methods=["POST", "GET"])
 def event(eid):
     with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
         event = db.find_event(eid, conn)
-        if event:
-            event['event_type'] = event['event_type'].split(',')
-            comments = db.find_comments(eid, conn)
-            if comments:
-                return render_template("event.html", event=event, comments=comments)
+        
+        if not event:
+            return redirect(url_for('main'))
 
-                # for comment in comments:
-                #     responses = db.find_responses(comment['cid'], conn)
-                #     comment['responses'] = responses
-            return render_template("event.html", event=event) 
-        if request.method == 'POST':
-            button_value = request.form.get('update')
-            if button_value == 'update':
-                return redirect(url_for('update_event', eid=eid))
+        if request.method == "POST":
+            if 'update' in request.form:
+                return redirect(url_for('event', eid=eid, edit='true'))
 
-            # instead of this, maybe making the "button" a
-            # link to the correct endpoint?
-        return redirect(url_for("main"))
+            if 'event_name' in request.form:
+            
+                db.update_event(eid, request.form, conn)
+                return redirect(url_for('event', eid=eid))
 
-
+        event['event_type'] = [tag.strip().capitalize() for tag in 
+                               (event['event_type'] or '').split(',')]
+        comments = db.find_comments(eid, conn) or []
+        
+        return render_template('event.html', event=event, comments=comments)
+    
+#user function
 @app.route("/user/<uid>", methods=["POST", "GET"])
 def user(uid):
     with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:

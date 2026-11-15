@@ -128,7 +128,7 @@ def find_user(uid, conn):
 def find_event(eid, conn):
     with conn.cursor(pymysql.cursors.DictCursor) as curs:
         curs.execute(
-            """SELECT uid, name, event_name, event_type, city, date, meeting_point, description, attachment, price
+            """SELECT eid, uid, name, event_name, event_type, city, date, meeting_point, description, attachment, price
                         FROM event
                         INNER JOIN user USING (uid)
                         WHERE eid = %s;""",
@@ -185,6 +185,23 @@ def update_user(uid, user, conn):
                         WHERE uid = %s;""",
             [uid],
         )
+    return curs.fetchone()
+
+def update_event(eid, event, conn):
+    with conn.cursor() as curs:
+        curs.execute("""
+    UPDATE event SET event_name = %s,
+    event_type = %s,
+    city = %s,
+    date = %s,
+    meeting_point = %s,
+    description = %s,
+    price = %s
+    WHERE eid = %s""", [
+        event['event_name'], ','.join(event.getlist('event_type')), event['city'],
+    event['date'], event['meeting_point'], event['description'],
+    event['price'], eid])
+    conn.commit()
     return curs.fetchone()
 
 def search_events(pattern, conn):

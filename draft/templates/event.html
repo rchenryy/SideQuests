@@ -16,6 +16,114 @@
 
     <h1>{{ event.event_name }}</h1>
 
+    {% if request.args.get('edit') %}
+    <form method="POST" action="{{url_for('event', eid=event.eid)}}" enctype="multipart/form-data">
+        <p>Name</p>
+        <p>{{session['user']['name']}}</p>
+        <p>Email</p>
+        <p>{{session['user']['email']}}</p>
+
+        
+        <label for = "event_name">Event Title:</label>
+        <input type = "text" maxlength= "30" id = "event_name" 
+        name = "event_name" value = "{{ event.event_name}}" required>
+        <br>
+        <br>
+
+        <label for = "city">(Optional): Event Location (City):</label>
+        <input type = "text" maxlength= "30" id = "city" 
+        name = "city" value = "{{ event.city or '' }}">
+        <br>
+        <br>
+
+        <label for = "date">Event Date and Time:</label>
+        <input type = "datetime-local" id = "date" 
+        name = "date" value = "{{ event.date }}" required>
+        <br>
+        <br>
+
+        <label for = "meeting_point">Meeting Point:</label>
+        <input type = "text" maxlength= "100" id = "meeting_point" 
+        name = "meeting_point" value = "{{ event.meeting_point or '' }}">
+        <br>
+        <br>
+
+        <label for = "price">(Optional): Event Price:</label>
+        <input type = "number" step= "any" id = "price" 
+        name = "price" value = "{{ event.price or '' }}">
+        <br>
+        <br>
+
+        <label for = "description">Event Description:</label>
+        <textarea id="description" name="description" rows="5" 
+        cols="40" maxlength="500" required>{{ event.description }}</textarea>
+        <br>
+        <br>
+
+        <p>Select event type:</p>
+        
+        <p>Debug: {{ event['event_type'] }}</p>
+        <p>Food match: {{ 'Food' in event['event_type'] }}</p>
+
+        <input type = "checkbox"  id = "option1" name = "event_type" value= "Food"
+        {% if "Food" in event["event_type"] %}checked{% endif %}>
+        <label for = "option1">Food</label> 
+        <br>
+
+        <input type = "checkbox"  id = "option2" name = "event_type" value= "Academic" 
+        {% if "Academic" in event["event_type"] %}checked{% endif %}>
+        <label for = "option2">Academic</label> 
+        <br>
+
+        <input type = "checkbox"  id = "option3" name = "event_type" value= "Nightlife" 
+        {% if "Nightlife" in event["event_type"] %}checked{% endif %}>
+        <label for = "option3">Nightlife</label> 
+        <br>
+
+        <input type = "checkbox"  id = "option4" name = "event_type" value= "Music" 
+        {% if "Music" in event["event_type"] %}checked{% endif %}>
+        <label for = "option4">Music</label>
+        <br>
+
+        <input type = "checkbox"  id = "option5" name = "event_type" value= "Cultural" 
+        {% if "Cultural" in event["event_type"] %}checked{% endif %}>
+        <label for = "option5">Cultural</label>
+        <br>
+
+        <input type = "checkbox"  id = "option6" name = "event_type" value= "Sport" 
+        {% if "Sport" in event["event_type"] %}checked{% endif %}>
+        <label for = "option6">Sport</label>
+        <br>
+
+        <input type = "checkbox"  id = "option7" name = "event_type" value= "Nature" 
+        {% if "Nature" in event["event_type"] %}checked{% endif %}>
+        <label for = "option7">Nature</label>
+        <br>
+
+        <input type = "checkbox"  id = "option8" name = "event_type" value= "Other" 
+        {% if "Other" in event["event_type"] %}checked{% endif %}>
+        <label for = "option8">Other</label>
+        <br>
+        <br>
+
+        <label for="attachment">(Optional) Chooses a file to attach:</label>
+        <input type="file" id="attachment" 
+        name="attachment" value= "">
+
+        {% if event and event.attachment %}
+            <p>Current attachment:</p>
+            <a href="{{ url_for('static', filename=event.attachment) }}">
+                View current attachment
+            </a>
+        {% endif %}
+        
+        <br>
+        <br>
+        <input type = "submit" value = "Update Event">
+    </form>
+
+    {% else %}
+
     <!-- Event Details Card -->
     <div class="card">
         <p><strong>Person:</strong> {{ event.name }}</p>
@@ -26,14 +134,15 @@
         <p><strong>Description:</strong> {{ event.description }}</p>
         <p><strong>Event Tag(s):</strong> {{event.event_type}}</p>
     </div>
+
     
-    <form method="POST" action="{{ url_for('event', eid=event.eid)}}">
+    <form method="POST" action="{{ url_for('event', eid=event.eid, edit='true')}}">
     {% if event.uid == session['user']['uid'] %}
         <button type = "submit" name="update" value="update">Update Event</button>
     {% endif %}
     </form>
 
-    <a href="{{ url_for('event', eid=event.eid)}}">Update Event</a>
+    <a href="{{ url_for('event', eid=event.eid, edit='true')}}">Update Event</a>
 
     <!-- Comments Display -->
     <h2>Comments</h2>
@@ -63,5 +172,7 @@
             <button type="submit" style="padding: 8px 16px;">Post Comment</button>
         </form>
     </div> 
+
+    {% endif %}
 </body>
 </html>
