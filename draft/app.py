@@ -18,12 +18,12 @@ app.secret_key = "".join(
 
 @app.route("/", methods=["POST", "GET"])
 def login():
-    with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
-        if request.method == "GET":
-            return render_template("login.html")
+    if request.method == "GET":
+        return render_template("login.html")
 
+    login = request.form
+    with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
         # find user, check if exists
-        login = request.form
         user = db.login_user(login["email"], conn)
 
         if user:
@@ -50,12 +50,12 @@ def main():
 
 @app.route("/new-user", methods=["POST", "GET"])
 def new_user():
+    if request.method == "GET":
+        return render_template(
+            "new_user.html",
+            user={"name": "", "email": "", "class": "", "dob": "", "bio": ""},
+        )
     with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
-        if request.method == "GET":
-            return render_template(
-                "new_user.html",
-                user={"name": "", "email": "", "class": "", "dob": "", "bio": ""},
-            )
         user = request.form
         uid = db.insert_user(user, conn)
 
@@ -73,8 +73,7 @@ def new_user():
 def new_event():
     with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
         if request.method == "GET":
-            
-            return render_template("new_event.html", event=None)
+            return render_template("new_event.html")
 
         event = request.form
         eid = db.insert_event(event, conn)
