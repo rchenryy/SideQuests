@@ -73,11 +73,6 @@ def new_user():
 def new_event():
     with pymysql.connect(read_default_file="~/.my.cnf", database="squest_db") as conn:
         if request.method == "GET":
-
-            if eid:
-                event = db.find_event(eid, conn)
-                event['event_type'] = event['event_type'].split('.')
-                return render_template("new_event.html", event=event)
             
             return render_template("new_event.html", event=None)
 

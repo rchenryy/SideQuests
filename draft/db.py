@@ -189,6 +189,8 @@ def update_user(uid, user, conn):
 
 def update_event(eid, event, conn):
     with conn.cursor() as curs:
+        price = event.get("price", 0) or 0
+        attachment = event.get("attachment", None)
         curs.execute("""
     UPDATE event SET event_name = %s,
     event_type = %s,
@@ -196,11 +198,12 @@ def update_event(eid, event, conn):
     date = %s,
     meeting_point = %s,
     description = %s,
-    price = %s
+    price = %s,
+    attachment = %s
     WHERE eid = %s""", [
         event['event_name'], ','.join(event.getlist('event_type')), event['city'],
     event['date'], event['meeting_point'], event['description'],
-    event['price'], eid])
+    price, attachment, eid])
     conn.commit()
     return curs.fetchone()
 
