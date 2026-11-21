@@ -19,6 +19,8 @@ app.secret_key = "".join(
 @app.route("/", methods=["POST", "GET"])
 def login():
     if request.method == "GET":
+        if session.get('user'):
+            session.pop('user')
         return render_template("login.html")
 
     login = request.form
@@ -61,8 +63,7 @@ def new_user():
 
         # check if uid is none, meaning duplicate email
         if uid:
-            user = db.find_user(uid, conn)
-            session["user"] = user
+            session["user"] = db.find_user(uid, conn)
             return redirect(url_for("user", uid=uid))
 
         message = "Username already taken, please change"
@@ -112,8 +113,7 @@ def user(uid):
                 return render_template("user.html", user=user)
             return redirect(url_for("main"))
         user = request.form
-        user = db.update_user(uid, user, conn)
-        session["user"] = user
+        session["user"] = db.update_user(uid, user, conn)
         return redirect(url_for("user", uid=uid))
 
 
