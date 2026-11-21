@@ -119,8 +119,10 @@
         
         <br>
         <br>
+
         <input type = "submit" value = "Update Event">
     </form>
+    <a href="{{url_for('event', eid=event.eid)}}">Cancel</a>
 
     {% else %}
 
@@ -136,13 +138,11 @@
     </div>
 
     
-    <form method="POST" action="{{ url_for('event', eid=event.eid, edit='true')}}">
     {% if event.uid == session['user']['uid'] %}
-        <button type = "submit" name="update" value="update">Update Event</button>
+        <a href="{{ url_for('event', eid=event.eid, edit='true')}}">Update Event</a>
     {% endif %}
-    </form>
 
-    <a href="{{ url_for('event', eid=event.eid, edit='true')}}">Update Event</a>
+   
 
     <!-- Comments Display -->
     <h2>Comments</h2>
