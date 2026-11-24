@@ -32,9 +32,8 @@
 
   <form class="search" method="GET" action="{{ url_for('search') }}" >
     <p>
-      <label> 
-        <input type="text" name="search" placeholder="Please enter event name to search..." required>
-      </label>
+      <label for="search">Search events</label>
+        <input id="search" type="text" name="search" placeholder="Please enter event name to search..." required>
     </p>
     <button class="search-button" type="submit">Search</button>
 
@@ -49,11 +48,12 @@
 
     </div>
     {% if events %}
-
+    <ul>
     {% for event in events %}
+
     <li><a href="{{url_for('event', eid=event.eid)}}">{{ event.event_name }}</a></li>
     {% endfor %}
-
+    </ul>
     {% else %}
     <p class="empty">No events found.</p>
     {% endif %}
